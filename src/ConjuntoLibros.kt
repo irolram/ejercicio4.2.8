@@ -1,37 +1,63 @@
-import ConjuntoLibros.Companion.librosAlmacenados
 
-class ConjuntoLibros(val libros: Array<Libro?>) {
+
+class ConjuntoLibros() {
+
+    val libros: MutableSet<Libro> = mutableSetOf<Libro>()
+
 
     companion object{
-        val librosAlmacenados = Array(5) { "" }
-        var indiceActual: Int = 0
+            val MAX_LIBROS = 5
     }
-    fun añadirLibro(libro: Libro) {
 
-        if (indiceActual < librosAlmacenados.size) {
-            libros[indiceActual] = libro
-            indiceActual++
+
+
+    fun aniadirLibro(libro: Libro){
+        if(libros.size < MAX_LIBROS ){
+            libros.add(libro)
         }else{
-            println("No hay espacio suficiente")
+            println("No hay más espacio")
         }
 
     }
-    /*fun borrarLibroAutor(autor: String) {
-        for (i in libros.indices) {
-            if (libros[i] == autor) {
+    fun eliminarLibroAutor(autor: String){
 
+        var libroPaEliminar: Libro? = null
+
+        for(libro in libros){
+            if(libro.autor == autor){
+                libroPaEliminar = libro
             }
         }
+        libros.remove(libroPaEliminar)
     }
+    fun eliminarLibroTitulo(titulo: String){
 
-     */
+        var libroPaEliminar: Libro? = null
 
-    fun mostrarLibros() {
-        println("Libros almacenados:")
-        libros.filterNotNull().forEach {
-            println("${it.titulo} - ${it.autor} - ${it.numeroPaginas} páginas - Calificación: ${it.calificacion}")
+        for(libro in libros){
+            if(libro.titulo == titulo){
+                libroPaEliminar = libro
+            }
+        }
+
+        libros.remove(libroPaEliminar)
+    }
+    fun mostrarLibrosOrdenado(){
+
+        val ordenadaCali : List<Libro> = libros.sortedByDescending { libro -> libro.calificacion }
+
+        for (libro in ordenadaCali){
+            println(libro)
         }
     }
+
+    fun mostrarTolosLibros(){
+
+        for (libro in libros){
+            println(libro)
+        }
+    }
+
 }
 
 
